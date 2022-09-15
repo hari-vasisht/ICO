@@ -7,7 +7,8 @@ async function main() {
   const crytpoDreamTokenContract = await ethers.getContractFactory(
     "CryptoDreamToken"
   );
-  const deployedCryptoDreamTokenContract = await ethers.deploy(NFT_Contract);
+  const deployedCryptoDreamTokenContract =
+    await crytpoDreamTokenContract.deploy(NFT_Contract);
   console.log(
     "CryptoDreamToken Contaract is deployed at:",
     deployedCryptoDreamTokenContract.address
