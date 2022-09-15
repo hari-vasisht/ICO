@@ -4,12 +4,10 @@ const { NFT_Contract_Address } = require("../constants");
 
 async function main() {
   const NFT_Contract = NFT_Contract_Address;
-  const crytpoDreamTokenContract = await ethers.getContarctFactory(
+  const crytpoDreamTokenContract = await ethers.getContractFactory(
     "CryptoDreamToken"
   );
-  const deployedCryptoDreamTokenContract = await ethers.deploy(
-    crytpoDreamTokenContract
-  );
+  const deployedCryptoDreamTokenContract = await ethers.deploy(NFT_Contract);
   console.log(
     "CryptoDreamToken Contaract is deployed at:",
     deployedCryptoDreamTokenContract.address
