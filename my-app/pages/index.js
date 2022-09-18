@@ -61,8 +61,8 @@ export default function Home() {
     try {
       const provider = await getProviderOrSigner();
       const tokenContract = new Contract(
-        NFT_CONTRACT_ADDRESS,
-        NFT_CONTRACT_ABI,
+        TOKEN_CONTRACT_ADDRESS,
+        TOKEN_CONTRACT_ABI,
         provider
       );
       const signer = await getProviderOrSigner(true);
@@ -77,13 +77,13 @@ export default function Home() {
 
   const mintCryptoDreamToken = async () => {
     try {
-      const signer = getProviderOrSigner(true);
+      const signer = await getProviderOrSigner(true);
       const tokenContract = new Contract(
         TOKEN_CONTRACT_ADDRESS,
         TOKEN_CONTRACT_ABI,
         signer
       );
-      const value = 0.01 * amount;
+      const value = 0.001 * amount;
       const tx = await tokenContract.mint(amount, {
         value: utils.parseEther(value.toString()),
       });
@@ -122,7 +122,7 @@ export default function Home() {
 
   const getTotalTokensMinted = async () => {
     try {
-      const provider = getProviderOrSigner();
+      const provider = await getProviderOrSigner();
       const tokenContract = new Contract(
         TOKEN_CONTRACT_ADDRESS,
         TOKEN_CONTRACT_ABI,
@@ -137,7 +137,7 @@ export default function Home() {
 
   const getOwner = async () => {
     try {
-      const provider = getProviderOrSigner();
+      const provider = await getProviderOrSigner();
       const tokenContract = new Contract(
         TOKEN_CONTRACT_ADDRESS,
         TOKEN_CONTRACT_ABI,
@@ -150,7 +150,7 @@ export default function Home() {
         setIsOwner(true);
       }
     } catch (err) {
-      console.error(err);
+      console.error(err.message);
     }
   };
 
@@ -162,6 +162,7 @@ export default function Home() {
         TOKEN_CONTRACT_ABI,
         signer
       );
+
       const tx = await tokenContract.withdraw();
       setLoading(true);
       await tx.wait();
@@ -175,6 +176,7 @@ export default function Home() {
   const getProviderOrSigner = async (needSigner = false) => {
     const provider = await web3ModalRef.current.connect();
     const web3Provider = new providers.Web3Provider(provider);
+
     const { chainId } = await web3Provider.getNetwork();
     if (chainId !== 5) {
       window.alert("Change the network to Goerli");
